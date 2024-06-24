@@ -63,6 +63,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Hidden card templates -->
+        <div id="currentRankTemplate" class="d-none">
+            <div class="col-md-6">
+                <div class="card mx-auto mb-4" style="width: 18rem;">
+                    <img src="" class="card-img-top" alt="Rank Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Current Rank</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="highestRankTemplate" class="d-none">
+            <div class="col-md-6">
+                <div class="card mx-auto mb-4" style="width: 18rem;">
+                    <img src="" class="card-img-top" alt="Highest Rank Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Highest Rank</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -90,45 +115,28 @@
 
                 const data = await response.json();
 
-                let rankInfoContent = '';
+                const rankInfoDiv = document.getElementById("rankInfo");
+                rankInfoDiv.innerHTML = '';
 
                 if (data.current_rank && data.current_rank_image) {
-                    const currentRank = data.current_rank;
-                    const currentRankImage = data.current_rank_image;
-                    rankInfoContent += `
-                        <div class="col-md-6">
-                            <div class="card mx-auto mb-4" style="width: 18rem;">
-                                <img src="${currentRankImage}" class="card-img-top" alt="Rank Image">
-                                <div class="card-body">
-                                    <h5 class="card-title">Current Rank</h5>
-                                    <p class="card-text">${currentRank}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    const currentRankTemplate = document.getElementById("currentRankTemplate").cloneNode(true);
+                    currentRankTemplate.classList.remove("d-none");
+                    currentRankTemplate.querySelector(".card-img-top").src = data.current_rank_image;
+                    currentRankTemplate.querySelector(".card-text").textContent = data.current_rank;
+                    rankInfoDiv.appendChild(currentRankTemplate);
                 } else {
-                    rankInfoContent += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
+                    rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
                 }
 
                 if (data.highest_rank && data.highest_rank_image) {
-                    const highestRank = data.highest_rank;
-                    const highestRankImage = data.highest_rank_image;
-                    rankInfoContent += `
-                        <div class="col-md-6">
-                            <div class="card mx-auto mb-4" style="width: 18rem;">
-                                <img src="${highestRankImage}" class="card-img-top" alt="Highest Rank Image">
-                                <div class="card-body">
-                                    <h5 class="card-title">Highest Rank</h5>
-                                    <p class="card-text">${highestRank}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    const highestRankTemplate = document.getElementById("highestRankTemplate").cloneNode(true);
+                    highestRankTemplate.classList.remove("d-none");
+                    highestRankTemplate.querySelector(".card-img-top").src = data.highest_rank_image;
+                    highestRankTemplate.querySelector(".card-text").textContent = data.highest_rank;
+                    rankInfoDiv.appendChild(highestRankTemplate);
                 } else {
-                    rankInfoContent += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
+                    rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
                 }
-
-                document.getElementById("rankInfo").innerHTML = rankInfoContent;
 
             } catch (error) {
                 console.error("Error fetching data:", error);
