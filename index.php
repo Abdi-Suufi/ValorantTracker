@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valorant Rank</title>
+    <title>Valorant Tracker</title>
     <!-- Bootstrap CSS link -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -27,17 +27,8 @@
             background-size: cover;
         }
 
-        p {
-            background-color: grey;
-            border-radius: 6px;
-            display: inline-block;
-            margin: 10px;
-            padding: 10px;
-        }
-
-        img {
-            display: block;
-            margin: 10px auto;
+        .card {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -45,7 +36,7 @@
 <body>
 
     <div class="container">
-        <h1 class="mt-4 mb-4 text-center">Valorant Rank Information</h1>
+        <h1 class="mt-4 mb-4 text-center">Valorant Rank Tracker</h1>
 
         <div id="inputForm">
             <div class="text-center">
@@ -67,8 +58,8 @@
                     <input type="text" id="tag" class="form-control" placeholder="Enter tag" required>
                 </div>
                 <button onclick="fetchRank()" class="btn btn-primary">Get Rank</button>
-                <div id="rankInfo" class="mt-4">
-                    <p class="text-center">Enter your details above and click 'Get Rank'.</p>
+                <div id="rankInfo" class="row mt-4 text-center">
+                    <p class="col-12">Enter your details above and click 'Get Rank'.</p>
                 </div>
             </div>
         </div>
@@ -99,19 +90,49 @@
 
                 const data = await response.json();
 
-                if (data.current_rank && data.rank_image) {
+                let rankInfoContent = '';
+
+                if (data.current_rank && data.current_rank_image) {
                     const currentRank = data.current_rank;
-                    const rankImage = data.rank_image;
-                    document.getElementById("rankInfo").innerHTML = `
-                        <p class="text-center">Current Rank: ${currentRank}</p>
-                        <img src="${rankImage}" alt="Rank Image" class="text-center"/>
+                    const currentRankImage = data.current_rank_image;
+                    rankInfoContent += `
+                        <div class="col-md-6">
+                            <div class="card mx-auto mb-4" style="width: 18rem;">
+                                <img src="${currentRankImage}" class="card-img-top" alt="Rank Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">Current Rank</h5>
+                                    <p class="card-text">${currentRank}</p>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 } else {
-                    document.getElementById("rankInfo").innerHTML = `<p class="text-center text-danger">Error: Rank data not found in API response</p>`;
+                    rankInfoContent += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
                 }
+
+                if (data.highest_rank && data.highest_rank_image) {
+                    const highestRank = data.highest_rank;
+                    const highestRankImage = data.highest_rank_image;
+                    rankInfoContent += `
+                        <div class="col-md-6">
+                            <div class="card mx-auto mb-4" style="width: 18rem;">
+                                <img src="${highestRankImage}" class="card-img-top" alt="Highest Rank Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">Highest Rank</h5>
+                                    <p class="card-text">${highestRank}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    rankInfoContent += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
+                }
+
+                document.getElementById("rankInfo").innerHTML = rankInfoContent;
+
             } catch (error) {
                 console.error("Error fetching data:", error);
-                document.getElementById("rankInfo").innerHTML = `<p class="text-center text-danger">Error fetching data. Please try again later.</p>`;
+                document.getElementById("rankInfo").innerHTML = `<p class="col-12 text-center text-danger">Error fetching data. Please try again later.</p>`;
             }
         }
     </script>

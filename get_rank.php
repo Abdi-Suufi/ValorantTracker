@@ -12,7 +12,7 @@ if (!$region || !$username || !$tag) {
     exit();
 }
 
-$url = "https://api.henrikdev.xyz/valorant/v1/mmr/$region/$username/$tag";
+$url = "https://api.henrikdev.xyz/valorant/v2/mmr/$region/$username/$tag";
 $headers = [
     "accept: application/json",
     "Authorization: HDEV-0fe3cd31-144b-48b3-9841-02c1183ccbe1"
@@ -35,12 +35,18 @@ if ($http_code != 200) {
 $data = json_decode($response, true);
 curl_close($ch);
 
-if (isset($data['data']['currenttierpatched'])) {
-    $current_rank = $data['data']['currenttierpatched'];
-    $rank_image = $data['data']['images']['small']; // Assuming you want the small image
+if (isset($data['data']['current_data']['currenttierpatched'])) {
+    $current_rank = $data['data']['current_data']['currenttierpatched'];
+    $current_rank_image = $data['data']['current_data']['images']['large'];
+
+    $highest_rank = isset($data['data']['highest_rank']['patched_tier']) ? $data['data']['highest_rank']['patched_tier'] : 'N/A';
+    $highest_rank_image = isset($data['data']['highest_rank']['tier']) ? "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/{$data['data']['highest_rank']['tier']}/largeicon.png" : '';
+
     echo json_encode([
         "current_rank" => $current_rank,
-        "rank_image" => $rank_image
+        "current_rank_image" => $current_rank_image,
+        "highest_rank" => $highest_rank,
+        "highest_rank_image" => $highest_rank_image
     ]);
 } else {
     echo json_encode(["error" => "Rank data not found in API response"]);
