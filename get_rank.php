@@ -8,8 +8,8 @@ $username = $input['username'];
 $tag = $input['tag'];
 
 if (!$region || !$username || !$tag) {
-	echo json_encode(["error" => "Missing region, username, or tag"]);
-	exit();
+    echo json_encode(["error" => "Missing region, username, or tag"]);
+    exit();
 }
 
 $url = "https://api.henrikdev.xyz/valorant/v1/mmr/$region/$username/$tag";
@@ -37,8 +37,11 @@ curl_close($ch);
 
 if (isset($data['data']['currenttierpatched'])) {
     $current_rank = $data['data']['currenttierpatched'];
-    echo json_encode(["current_rank" => $current_rank]);
+    $rank_image = $data['data']['images']['small']; // Assuming you want the small image
+    echo json_encode([
+        "current_rank" => $current_rank,
+        "rank_image" => $rank_image
+    ]);
 } else {
     echo json_encode(["error" => "Rank data not found in API response"]);
 }
-?>
