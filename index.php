@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorant Tracker</title>
-    <!-- Bootstrap CSS link -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Additional custom styles */
         body {
             padding: 20px;
+            background-image: url('background.jpg');
+            background-size: cover;
         }
 
         #inputForm {
@@ -22,11 +22,6 @@
             margin-top: 20px;
         }
 
-        body {
-            background-image: url('background.jpg');
-            background-size: cover;
-        }
-
         .card {
             margin-top: 20px;
         }
@@ -34,21 +29,11 @@
 </head>
 
 <body>
-
     <div class="container">
         <h1 class="mt-4 mb-4 text-center">Valorant Rank Tracker</h1>
 
         <div id="inputForm">
             <div class="text-center">
-                <div class="form-group">
-                    <label for="region">Region:</label>
-                    <select id="region" class="form-control">
-                        <option value="na">North America</option>
-                        <option value="eu">Europe</option>
-                        <option value="ap">Asia Pacific</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" class="form-control" placeholder="Enter username" required>
@@ -64,31 +49,34 @@
             </div>
         </div>
 
-        <!-- Hidden card templates -->
         <div id="currentRankTemplate" class="d-none">
-            <div class="col-md-6">
-                <div class="card mx-auto mb-4" style="width: 18rem;">
-                    <img src="" class="card-img-top" alt="Rank Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Current Rank</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+            <div class="card mx-auto mb-4" style="width: 18rem;">
+            <img src="" class="card-img-top" alt="Rank Image">
+            <div class="card-body">
+                <h5 class="card-title">Current Rank</h5>
+                <p class="card-text"></p>
+            </div>
             </div>
         </div>
 
         <div id="highestRankTemplate" class="d-none">
-            <div class="col-md-6">
-                <div class="card mx-auto mb-4" style="width: 18rem;">
-                    <img src="" class="card-img-top" alt="Highest Rank Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Highest Rank</h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+            <div class="card mx-auto mb-4" style="width: 18rem;">
+            <img src="" class="card-img-top" alt="Highest Rank Image">
+            <div class="card-body">
+                <h5 class="card-title">Highest Rank</h5>
+                <p class="card-text"></p>
+            </div>
             </div>
         </div>
+        </div>
     </div>
+
+    <style>
+        .rank-card {
+        display: flex;
+        justify-content: space-between;
+        }
+    </style>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
@@ -96,7 +84,6 @@
 
     <script>
         async function fetchRank() {
-            const region = document.getElementById("region").value;
             const username = document.getElementById("username").value;
             const tag = document.getElementById("tag").value;
 
@@ -107,7 +94,6 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        region,
                         username,
                         tag
                     }),
@@ -123,6 +109,7 @@
                     currentRankTemplate.classList.remove("d-none");
                     currentRankTemplate.querySelector(".card-img-top").src = data.current_rank_image;
                     currentRankTemplate.querySelector(".card-text").textContent = data.current_rank;
+                    currentRankTemplate.classList.add("col-md-6"); // Add col-md-6 class to the cloned template
                     rankInfoDiv.appendChild(currentRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
@@ -133,6 +120,7 @@
                     highestRankTemplate.classList.remove("d-none");
                     highestRankTemplate.querySelector(".card-img-top").src = data.highest_rank_image;
                     highestRankTemplate.querySelector(".card-text").textContent = data.highest_rank;
+                    highestRankTemplate.classList.add("col-md-6"); // Add col-md-6 class to the cloned template
                     rankInfoDiv.appendChild(highestRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
@@ -144,7 +132,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>
