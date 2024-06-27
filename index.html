@@ -11,6 +11,7 @@
             padding: 20px;
             background-image: url('background.jpg');
             background-size: cover;
+            color: white;
         }
 
         #inputForm {
@@ -25,13 +26,16 @@
         .card {
             margin-top: 20px;
         }
+
+        .card-body {
+            background-color: #525252;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1 class="mt-4 mb-4 text-center">Valorant Rank Tracker</h1>
-
         <div id="inputForm">
             <div class="text-center">
                 <div class="form-group">
@@ -48,45 +52,39 @@
                 </div>
             </div>
         </div>
-
         <div id="currentRankTemplate" class="d-none">
             <div class="card mx-auto mb-4" style="width: 18rem;">
-            <img src="" class="card-img-top" alt="Rank Image">
-            <div class="card-body">
-                <h5 class="card-title">Current Rank</h5>
-                <p class="card-text"></p>
-            </div>
+                <img src="" class="card-img-top" alt="Rank Image">
+                <div class="card-body">
+                    <h5 class="card-title">Current Rank</h5>
+                    <p class="card-text"></p>
+                    <p class="card-elo"></p>
+                </div>
             </div>
         </div>
-
         <div id="highestRankTemplate" class="d-none">
             <div class="card mx-auto mb-4" style="width: 18rem;">
-            <img src="" class="card-img-top" alt="Highest Rank Image">
-            <div class="card-body">
-                <h5 class="card-title">Highest Rank</h5>
-                <p class="card-text"></p>
+                <img src="" class="card-img-top" alt="Highest Rank Image">
+                <div class="card-body">
+                    <h5 class="card-title">Highest Rank</h5>
+                    <p class="card-text"></p>
+                </div>
             </div>
-            </div>
-        </div>
         </div>
     </div>
-
     <style>
         .rank-card {
-        display: flex;
-        justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
         }
     </style>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script>
         async function fetchRank() {
             const username = document.getElementById("username").value;
             const tag = document.getElementById("tag").value;
-
             try {
                 const response = await fetch("get_rank.php", {
                     method: "POST",
@@ -98,23 +96,20 @@
                         tag
                     }),
                 });
-
                 const data = await response.json();
-
                 const rankInfoDiv = document.getElementById("rankInfo");
                 rankInfoDiv.innerHTML = '';
-
                 if (data.current_rank && data.current_rank_image) {
                     const currentRankTemplate = document.getElementById("currentRankTemplate").cloneNode(true);
                     currentRankTemplate.classList.remove("d-none");
                     currentRankTemplate.querySelector(".card-img-top").src = data.current_rank_image;
                     currentRankTemplate.querySelector(".card-text").textContent = data.current_rank;
+                    currentRankTemplate.querySelector(".card-elo").textContent = "ELO/MMR: " + data.current_elo;
                     currentRankTemplate.classList.add("col-md-6"); // Add col-md-6 class to the cloned template
                     rankInfoDiv.appendChild(currentRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
                 }
-
                 if (data.highest_rank && data.highest_rank_image) {
                     const highestRankTemplate = document.getElementById("highestRankTemplate").cloneNode(true);
                     highestRankTemplate.classList.remove("d-none");
@@ -125,7 +120,6 @@
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
                 }
-
             } catch (error) {
                 console.error("Error fetching data:", error);
                 document.getElementById("rankInfo").innerHTML = `<p class="col-12 text-center text-danger">Error fetching data. Please try again later.</p>`;

@@ -65,6 +65,7 @@ curl_close($ch);
 if (isset($data['data']['current_data']['currenttierpatched'])) {
     $current_rank = $data['data']['current_data']['currenttierpatched'];
     $current_rank_image = $data['data']['current_data']['images']['large'];
+    $current_elo = $data['data']['current_data']['elo'];
 
     $highest_rank = isset($data['data']['highest_rank']['patched_tier']) ? $data['data']['highest_rank']['patched_tier'] : 'N/A';
     $highest_rank_image = isset($data['data']['highest_rank']['tier']) ? "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/{$data['data']['highest_rank']['tier']}/largeicon.png" : '';
@@ -72,6 +73,7 @@ if (isset($data['data']['current_data']['currenttierpatched'])) {
     echo json_encode([
         "current_rank" => $current_rank,
         "current_rank_image" => $current_rank_image,
+        "current_elo" => $current_elo,
         "highest_rank" => $highest_rank,
         "highest_rank_image" => $highest_rank_image
     ]);
