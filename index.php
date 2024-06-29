@@ -56,15 +56,17 @@
     <div class="text-center content-section masthead">
         <h1 class="mt-4 mb-4 text-center">Valorant Rank Tracker</h1>
         <div id="inputForm">
-            <div class="text-center">
-                <div class="form-group">
-                    <label for="usernameTag">Username#Tag:</label>
-                    <input type="text" id="usernameTag" class="form-control" placeholder="Enter username#tag" required>
+            <form onsubmit="event.preventDefault(); fetchRank();"> <!-- Prevent default form submission and handle it with fetchRank() -->
+                <div class="text-center">
+                    <div class="form-group">
+                        <label for="usernameTag">Username#Tag:</label>
+                        <input type="text" id="usernameTag" class="form-control" placeholder="Enter username#tag" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Rank</button> <!-- Use type="submit" for button to trigger form submission -->
                 </div>
-                <button onclick="fetchRank()" class="btn btn-primary">Get Rank</button>
-                <div id="rankInfo" class="row mt-4 text-center">
-                    <p class="col-12">Enter your details above and click 'Get Rank'.</p>
-                </div>
+            </form>
+            <div id="rankInfo" class="row mt-4 text-center">
+                <p class="col-12">Enter your details above and click 'Get Rank'.</p>
             </div>
         </div>
         <div class="row">
@@ -95,6 +97,10 @@
     <script>
         async function fetchRank() {
             const usernameTag = document.getElementById("usernameTag").value;
+            if (!usernameTag) {
+                alert("Please enter a username#tag."); // Provide user feedback if input is empty
+                return;
+            }
             try {
                 const response = await fetch("get_rank.php", {
                     method: "POST",
