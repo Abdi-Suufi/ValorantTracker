@@ -10,7 +10,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding: 20px;
             background-image: url('https://wallpaper.forfun.com/fetch/90/90bcf5ee927d2ac4487970ebb937bef2.jpeg');
             background-size: cover;
             color: white;
@@ -32,11 +31,41 @@
         .card-body {
             background-color: #525252;
         }
+
+        .masthead {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        @media (max-width: 576px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 768px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 992px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 993px) and (max-width: 1620px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="text-center content-section masthead">
         <h1 class="mt-4 mb-4 text-center">Valorant Rank Tracker</h1>
         <div id="inputForm">
             <div class="text-center">
