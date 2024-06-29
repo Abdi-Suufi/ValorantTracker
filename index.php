@@ -1,3 +1,4 @@
+<!-- index.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,12 +40,8 @@
         <div id="inputForm">
             <div class="text-center">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" class="form-control" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label for="tag">Tag:</label>
-                    <input type="text" id="tag" class="form-control" placeholder="Enter tag" required>
+                    <label for="usernameTag">Username#Tag:</label>
+                    <input type="text" id="usernameTag" class="form-control" placeholder="Enter username#tag" required>
                 </div>
                 <button onclick="fetchRank()" class="btn btn-primary">Get Rank</button>
                 <div id="rankInfo" class="row mt-4 text-center">
@@ -83,8 +80,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         async function fetchRank() {
-            const username = document.getElementById("username").value;
-            const tag = document.getElementById("tag").value;
+            const usernameTag = document.getElementById("usernameTag").value;
             try {
                 const response = await fetch("get_rank.php", {
                     method: "POST",
@@ -92,8 +88,7 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        username,
-                        tag
+                        usernameTag
                     }),
                 });
                 const data = await response.json();
@@ -105,7 +100,7 @@
                     currentRankTemplate.querySelector(".card-img-top").src = data.current_rank_image;
                     currentRankTemplate.querySelector(".card-text").textContent = data.current_rank;
                     currentRankTemplate.querySelector(".card-elo").textContent = "ELO/MMR: " + data.current_elo;
-                    currentRankTemplate.classList.add("col-md-6"); // Add col-md-6 class to the cloned template
+                    currentRankTemplate.classList.add("col-md-6");
                     rankInfoDiv.appendChild(currentRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
@@ -115,7 +110,7 @@
                     highestRankTemplate.classList.remove("d-none");
                     highestRankTemplate.querySelector(".card-img-top").src = data.highest_rank_image;
                     highestRankTemplate.querySelector(".card-text").textContent = data.highest_rank;
-                    highestRankTemplate.classList.add("col-md-6"); // Add col-md-6 class to the cloned template
+                    highestRankTemplate.classList.add("col-md-6");
                     rankInfoDiv.appendChild(highestRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
