@@ -44,19 +44,7 @@
             }
         }
 
-        @media (min-width: 577px) and (max-width: 768px) {
-            .masthead {
-                min-height: 100vh;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 992px) {
-            .masthead {
-                min-height: 100vh;
-            }
-        }
-
-        @media (min-width: 993px) and (max-width: 1620px) {
+        @media (min-width: 576px) and (max-width: 1620px) {
             .masthead {
                 min-height: 100vh;
             }
@@ -79,32 +67,28 @@
                 </div>
             </div>
         </div>
-        <div id="currentRankTemplate" class="d-none">
-            <div class="card mx-auto mb-4" style="width: 18rem;">
-                <img src="" class="card-img-top" alt="Rank Image">
-                <div class="card-body">
-                    <h5 class="card-title">Current Rank</h5>
-                    <p class="card-text"></p>
-                    <p class="card-elo"></p>
+        <div class="row">
+            <div id="currentRankTemplate" class="d-none col-md-6">
+                <div class="card mb-4"> <!-- Removed mx-auto class -->
+                    <img src="" class="card-img-top" alt="Rank Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Current Rank</h5>
+                        <p class="card-text"></p>
+                        <p class="card-elo"></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="highestRankTemplate" class="d-none">
-            <div class="card mx-auto mb-4" style="width: 18rem;">
-                <img src="" class="card-img-top" alt="Highest Rank Image">
-                <div class="card-body">
-                    <h5 class="card-title">Highest Rank</h5>
-                    <p class="card-text"></p>
+            <div id="highestRankTemplate" class="d-none col-md-6">
+                <div class="card mb-4"> <!-- Removed mx-auto class -->
+                    <img src="" class="card-img-top" alt="Highest Rank Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Highest Rank</h5>
+                        <p class="card-text"></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        .rank-card {
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -130,7 +114,6 @@
                     currentRankTemplate.querySelector(".card-img-top").src = data.current_rank_image;
                     currentRankTemplate.querySelector(".card-text").textContent = data.current_rank;
                     currentRankTemplate.querySelector(".card-elo").textContent = "ELO/MMR: " + data.current_elo;
-                    currentRankTemplate.classList.add("col-md-6");
                     rankInfoDiv.appendChild(currentRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
@@ -140,7 +123,6 @@
                     highestRankTemplate.classList.remove("d-none");
                     highestRankTemplate.querySelector(".card-img-top").src = data.highest_rank_image;
                     highestRankTemplate.querySelector(".card-text").textContent = data.highest_rank;
-                    highestRankTemplate.classList.add("col-md-6");
                     rankInfoDiv.appendChild(highestRankTemplate);
                 } else {
                     rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;
