@@ -6,11 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorant Tracker</title>
+    <link rel="icon" href="https://static-00.iconduck.com/assets.00/games-valorant-icon-1024x1024-qt8wlexf.png" type="image/png">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             padding: 20px;
-            background-image: url('background.jpg');
+            background-image: url('https://wallpaper.forfun.com/fetch/90/90bcf5ee927d2ac4487970ebb937bef2.jpeg');
             background-size: cover;
             color: white;
         }
