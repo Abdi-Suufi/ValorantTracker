@@ -41,6 +41,8 @@ async function fetchRank() {
         data.highest_rank_image;
       highestRankTemplate.querySelector(".card-text").textContent =
         data.highest_rank;
+      highestRankTemplate.querySelector(".card-season").textContent =
+        "Season: " + data.highest_rank_season;
       rankInfoDiv.appendChild(highestRankTemplate);
     } else {
       rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;

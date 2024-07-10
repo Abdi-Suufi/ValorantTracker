@@ -82,13 +82,15 @@ if (isset($data['data']['current_data']['currenttierpatched'])) {
     $highest_rank_image = isset($data['data']['highest_rank']['tier'])
         ? "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/{$data['data']['highest_rank']['tier']}/largeicon.png"
         : '';
+    $highest_rank_season = $data['data']['highest_rank']['season'] ?? 'Unknown Season';
 
     echo json_encode([
         "current_rank" => $current_rank,
         "current_rank_image" => $current_rank_image,
         "current_elo" => $current_elo,
         "highest_rank" => $highest_rank,
-        "highest_rank_image" => $highest_rank_image
+        "highest_rank_image" => $highest_rank_image,
+        "highest_rank_season" => $highest_rank_season
     ]);
 } else {
     echo json_encode(["error" => "Rank data not found in API response"]);

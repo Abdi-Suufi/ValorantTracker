@@ -36,7 +36,7 @@
                     <div class="card mb-4">
                         <img src="" class="card-img-top" alt="Rank Image">
                         <div class="card-body">
-                            <h5 class="card-title">Current Rank</h5>
+                            <h5 class="card-title">Current Rank:</h5>
                             <p class="card-text"></p>
                             <p class="card-elo"></p>
                         </div>
@@ -46,8 +46,9 @@
                     <div class="card mb-4">
                         <img src="" class="card-img-top" alt="Highest Rank Image">
                         <div class="card-body">
-                            <h5 class="card-title">Highest Rank</h5>
+                            <h5 class="card-title">Highest Rank:</h5>
                             <p class="card-text"></p>
+                            <p class="card-season"></p>
                         </div>
                     </div>
                 </div>
