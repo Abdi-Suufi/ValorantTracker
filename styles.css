@@ -1,0 +1,53 @@
+body {
+            background-image: url('background.jpg');
+            background-size: cover;
+            color: white;
+        }
+
+        #inputForm {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #rankInfo {
+            margin-top: 20px;
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .card-body {
+            background-color: #525252;
+        }
+
+        .masthead {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        @media (max-width: 576px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 576px) and (max-width: 1620px) {
+            .masthead {
+                min-height: 100vh;
+            }
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .content-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }

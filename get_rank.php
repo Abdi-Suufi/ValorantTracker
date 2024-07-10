@@ -1,4 +1,12 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php'; // Path to autoload.php of Composer
+
+use Dotenv\Dotenv;
+
+// Load environment variables from .env
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -17,7 +25,7 @@ list($username, $tag) = explode('#', $usernameTag, 2);
 $account_url = "https://api.henrikdev.xyz/valorant/v1/account/$username/$tag";
 $headers = [
     "accept: application/json",
-    "Authorization: HDEV-0fe3cd31-144b-48b3-9841-02c1183ccbe1"
+    "Authorization: " . $_ENV['API_KEY']  // Access API key from environment variable
 ];
 
 $ch = curl_init();
