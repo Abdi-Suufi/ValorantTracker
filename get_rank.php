@@ -15,6 +15,10 @@ header('Content-Type: application/json');
 $input = json_decode(file_get_contents('php://input'), true);
 
 $usernameTag = $input['usernameTag'];
+
+// Remove any whitespace characters from the usernameTag
+$usernameTag = str_replace(' ', '', $usernameTag);
+
 if (!$usernameTag || strpos($usernameTag, '#') === false) {
     echo json_encode(["error" => "Invalid format. Use 'username#tag'"]);
     exit();
