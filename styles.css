@@ -51,3 +51,10 @@ body {
             align-items: center;
             height: 100%;
         }
+
+#main {
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgba(0, 38, 53, 0.35); /* Weird way to give background opacity */
+}
