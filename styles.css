@@ -1,60 +1,160 @@
 body {
-            background-image: url('background.jpg');
-            background-size: cover;
-            color: white;
-        }
+    background-image: url('background.jpg');
+    background-size: cover;
+    color: white;
+    min-height: 100vh;
+}
 
-        #inputForm {
-            max-width: 400px;
-            margin: 0 auto;
-        }
+#inputForm {
+    max-width: 400px;
+    margin: 0 auto;
+}
 
-        #rankInfo {
-            margin-top: 20px;
-        }
+.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+}
 
-        .card {
-            margin-top: 20px;
-        }
+.btn-primary {
+    background-color: #ff4655;
+    border-color: #ff4655;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
 
-        .card-body {
-            background-color: #525252;
-        }
+.btn-primary:hover {
+    background-color: #ff5c69;
+    border-color: #ff5c69;
+    transform: translateY(-2px);
+}
 
-        .masthead {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+.card {
+    background-color: rgba(32, 32, 32, 0.95);
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
 
-        @media (max-width: 576px) {
-            .masthead {
-                min-height: 100vh;
-            }
-        }
+.card:hover {
+    transform: translateY(-5px);
+}
 
-        @media (min-width: 576px) and (max-width: 1620px) {
-            .masthead {
-                min-height: 100vh;
-            }
-        }
+.rank-header {
+    background-color: rgba(255, 70, 85, 0.1);
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        html,
-        body {
-            height: 100%;
-        }
+.rank-img {
+    max-height: 200px;
+    object-fit: contain;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
 
-        .content-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
+.card-body {
+    padding: 1.5rem;
+}
+
+.rank-info {
+    text-align: center;
+}
+
+.rank-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ff4655;
+    margin-bottom: 0.5rem;
+}
+
+.card-elo, .card-rr, .card-mmr-change {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.season-stats {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.season-stats h6 {
+    color: #ff4655;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+}
+
+.masthead {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem 1rem;
+}
 
 #main {
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: 10px;
-    padding: 20px;
-    background-color: rgba(0, 38, 53, 0.35); /* Weird way to give background opacity */
+    border: 2px solid rgba(91, 135, 255, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    background-color: rgba(0, 38, 53, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+@media (max-width: 576px) {
+    .masthead {
+        padding: 1rem;
+    }
+
+    #main {
+        padding: 1rem;
+    }
+
+    .rank-img {
+        max-height: 150px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-6 {
+        margin-bottom: 1rem;
+    }
 }

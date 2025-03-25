@@ -24,10 +24,24 @@ async function fetchRank() {
       currentRankTemplate.classList.remove("d-none");
       currentRankTemplate.querySelector(".card-img-top").src =
         data.current_rank_image;
-      currentRankTemplate.querySelector(".card-text").textContent =
+      currentRankTemplate.querySelector(".card-text.rank-name").textContent =
         data.current_rank;
       currentRankTemplate.querySelector(".card-elo").textContent =
-        "ELO/MMR: " + data.current_elo;
+        `ELO: ${data.current_elo}`;
+      currentRankTemplate.querySelector(".card-rr").textContent =
+        `${data.ranking_in_tier}/100 RR`;
+      const mmrChangeEl = currentRankTemplate.querySelector(".card-mmr-change");
+      mmrChangeEl.textContent =
+        data.mmr_change >= 0
+          ? `+${data.mmr_change} RR last game`
+          : `${data.mmr_change} RR last game`;
+      mmrChangeEl.style.color = data.mmr_change >= 0 ? "#00ff00" : "#ff4655";
+      currentRankTemplate.querySelector(".stat-value.wins").textContent =
+        data.season_wins;
+      currentRankTemplate.querySelector(".stat-value.games").textContent =
+        data.season_games;
+      currentRankTemplate.querySelector(".stat-value.winrate").textContent =
+        `${data.season_winrate}%`;
       rankInfoDiv.appendChild(currentRankTemplate);
     } else {
       rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Rank data not found in API response</p>`;
@@ -39,10 +53,10 @@ async function fetchRank() {
       highestRankTemplate.classList.remove("d-none");
       highestRankTemplate.querySelector(".card-img-top").src =
         data.highest_rank_image;
-      highestRankTemplate.querySelector(".card-text").textContent =
+      highestRankTemplate.querySelector(".card-text.rank-name").textContent =
         data.highest_rank;
       highestRankTemplate.querySelector(".card-season").textContent =
-        "Season: " + data.highest_rank_season;
+        `Achieved in ${data.highest_rank_season}`;
       rankInfoDiv.appendChild(highestRankTemplate);
     } else {
       rankInfoDiv.innerHTML += `<p class="col-12 text-center text-danger">Error: Highest rank data not found in API response</p>`;

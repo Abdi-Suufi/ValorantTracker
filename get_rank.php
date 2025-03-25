@@ -77,6 +77,15 @@ if (isset($data['data']['current_data']['currenttierpatched'])) {
     $current_rank = $data['data']['current_data']['currenttierpatched'];
     $current_rank_image = $data['data']['current_data']['images']['large'];
     $current_elo = $data['data']['current_data']['elo'];
+    $ranking_in_tier = $data['data']['current_data']['ranking_in_tier'] ?? 0;
+    $mmr_change = $data['data']['current_data']['mmr_change_to_last_game'] ?? 0;
+    
+    // Get current season stats
+    $current_season = array_key_first($data['data']['by_season']);
+    $current_season_stats = $data['data']['by_season'][$current_season] ?? null;
+    $season_wins = $current_season_stats['wins'] ?? 0;
+    $season_games = $current_season_stats['number_of_games'] ?? 0;
+    $season_winrate = $season_games > 0 ? round(($season_wins / $season_games) * 100, 1) : 0;
 
     $highest_rank = $data['data']['highest_rank']['patched_tier'] ?? 'N/A';
     $highest_rank_image = isset($data['data']['highest_rank']['tier'])
@@ -88,6 +97,11 @@ if (isset($data['data']['current_data']['currenttierpatched'])) {
         "current_rank" => $current_rank,
         "current_rank_image" => $current_rank_image,
         "current_elo" => $current_elo,
+        "ranking_in_tier" => $ranking_in_tier,
+        "mmr_change" => $mmr_change,
+        "season_wins" => $season_wins,
+        "season_games" => $season_games,
+        "season_winrate" => $season_winrate,
         "highest_rank" => $highest_rank,
         "highest_rank_image" => $highest_rank_image,
         "highest_rank_season" => $highest_rank_season
