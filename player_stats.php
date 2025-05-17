@@ -162,53 +162,150 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['player_name_tag'])) {
                     (Region: <?php echo htmlspecialchars(strtoupper($accountInfo['region'] ?? 'N/A')); ?>, 
                      Level: <?php echo htmlspecialchars($accountInfo['account_level'] ?? 'N/A'); ?>)
                 </h3>
-                
-                <div class="card-container">
-                    <!-- Combined Player Card + Current Rank -->
-                    <div class="card"> 
-                        <?php if (isset($accountInfo['card']['small'])): ?>
-                            <img src="<?php echo htmlspecialchars($accountInfo['card']['small']); ?>" alt="Player Card" class="card-img-top" style="max-width: 150px; width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 10px; border-radius: 4px;">
-                        <?php endif; ?>
-                        <div class="card-body" style="text-align: center;">
-                            <h4>Current Rank</h4>
-                            <?php if($playerStatsDisplay['current_rank_image']): ?>
-                                <img src="<?php echo htmlspecialchars($playerStatsDisplay['current_rank_image']); ?>" alt="<?php echo htmlspecialchars($playerStatsDisplay['current_rank']); ?>" style="width:80px;height:80px; display: block; margin: 10px auto;">
-                            <?php endif; ?>
-                            <p><strong>Rank:</strong> <?php echo htmlspecialchars($playerStatsDisplay['current_rank']); ?></p>
-                            <p><strong>Elo:</strong> <?php echo htmlspecialchars($playerStatsDisplay['current_elo']); ?></p>
-                            <p><strong>RR in Tier:</strong> <?php echo htmlspecialchars($playerStatsDisplay['ranking_in_tier']); ?>/100 rr</p>
-                            <p><strong>Last Match MMR Change:</strong> <?php echo htmlspecialchars($playerStatsDisplay['mmr_change']); ?></p>
-                        </div>
-                    </div>
 
-                    <div class="card" style="text-align: center;">
-                        <h4>Highest Rank Achieved</h4>
-                         <?php if($playerStatsDisplay['highest_rank_image']): ?>
-                            <img src="<?php echo htmlspecialchars($playerStatsDisplay['highest_rank_image']); ?>" alt="<?php echo htmlspecialchars($playerStatsDisplay['highest_rank']); ?>" style="width:80px;height:80px; display: block; margin: 10px auto;">
-                        <?php endif; ?>
-                        <p><strong>Rank:</strong> <?php echo htmlspecialchars($playerStatsDisplay['highest_rank']); ?></p>
-                        <p><strong>Season:</strong> <?php echo htmlspecialchars($playerStatsDisplay['highest_rank_season']); ?></p>
-                    </div>
+                <!-- Sub Navigation -->
+                <div class="sub-nav">
+                    <ul>
+                        <li><a href="#overview" class="active" onclick="showSection('overview')">Overview</a></li>
+                        <li><a href="#match-history" onclick="showSection('match-history')">Match History</a></li>
+                    </ul>
                 </div>
 
-                <?php if(!empty($playerStatsDisplay['by_season'])): ?>
-                    <h4>Seasonal Performance (from /v2/mmr)</h4>
+                <!-- Overview Section -->
+                <div id="overview" class="stats-section">
                     <div class="card-container">
-                        <?php foreach($playerStatsDisplay['by_season'] as $season_id => $season_details): ?>
-                        <div class="card">
-                            <h5>Season: <?php echo htmlspecialchars($season_id);?></h5>
-                            <p><strong>Rank:</strong> <?php echo htmlspecialchars($season_details['rank']); ?></p>
-                            <p><strong>Wins:</strong> <?php echo htmlspecialchars($season_details['wins']); ?></p>
-                            <p><strong>Games Played:</strong> <?php echo htmlspecialchars($season_details['games']); ?></p>
-                            <?php if ($season_details['games'] > 0): ?>
-                                <p><strong>Win Rate:</strong> <?php echo round(($season_details['wins'] / $season_details['games']) * 100, 1); ?>%</p>
+                        <!-- Combined Player Card + Current Rank -->
+                        <div class="card"> 
+                            <?php if (isset($accountInfo['card']['small'])): ?>
+                                <img src="<?php echo htmlspecialchars($accountInfo['card']['small']); ?>" alt="Player Card" class="card-img-top" style="max-width: 150px; width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 10px; border-radius: 4px;">
                             <?php endif; ?>
+                            <div class="card-body" style="text-align: center;">
+                                <h4>Current Rank</h4>
+                                <?php if($playerStatsDisplay['current_rank_image']): ?>
+                                    <img src="<?php echo htmlspecialchars($playerStatsDisplay['current_rank_image']); ?>" alt="<?php echo htmlspecialchars($playerStatsDisplay['current_rank']); ?>" style="width:80px;height:80px; display: block; margin: 10px auto;">
+                                <?php endif; ?>
+                                <p><strong>Rank:</strong> <?php echo htmlspecialchars($playerStatsDisplay['current_rank']); ?></p>
+                                <p><strong>Elo:</strong> <?php echo htmlspecialchars($playerStatsDisplay['current_elo']); ?></p>
+                                <p><strong>RR in Tier:</strong> <?php echo htmlspecialchars($playerStatsDisplay['ranking_in_tier']); ?>/100 rr</p>
+                                <p><strong>Last Match MMR Change:</strong> <?php echo htmlspecialchars($playerStatsDisplay['mmr_change']); ?></p>
+                            </div>
                         </div>
-                        <?php endforeach; ?>
+
+                        <div class="card" style="text-align: center;">
+                            <h4>Highest Rank Achieved</h4>
+                             <?php if($playerStatsDisplay['highest_rank_image']): ?>
+                                <img src="<?php echo htmlspecialchars($playerStatsDisplay['highest_rank_image']); ?>" alt="<?php echo htmlspecialchars($playerStatsDisplay['highest_rank']); ?>" style="width:80px;height:80px; display: block; margin: 10px auto;">
+                            <?php endif; ?>
+                            <p><strong>Rank:</strong> <?php echo htmlspecialchars($playerStatsDisplay['highest_rank']); ?></p>
+                            <p><strong>Season:</strong> <?php echo htmlspecialchars($playerStatsDisplay['highest_rank_season']); ?></p>
+                        </div>
                     </div>
-                <?php endif; ?>
-            
-            <?php elseif (!$apiErrorDetails): // No data to display, and no error was recorded before this point (e.g. form not submitted yet) ?>
+
+                    <?php if(!empty($playerStatsDisplay['by_season'])): ?>
+                        <h4>Seasonal Performance (from /v2/mmr)</h4>
+                        <div class="card-container">
+                            <?php foreach($playerStatsDisplay['by_season'] as $season_id => $season_details): ?>
+                            <div class="card">
+                                <h5>Season: <?php echo htmlspecialchars($season_id);?></h5>
+                                <p><strong>Rank:</strong> <?php echo htmlspecialchars($season_details['rank']); ?></p>
+                                <p><strong>Wins:</strong> <?php echo htmlspecialchars($season_details['wins']); ?></p>
+                                <p><strong>Games Played:</strong> <?php echo htmlspecialchars($season_details['games']); ?></p>
+                                <?php if ($season_details['games'] > 0): ?>
+                                    <p><strong>Win Rate:</strong> <?php echo round(($season_details['wins'] / $season_details['games']) * 100, 1); ?>%</p>
+                                <?php endif; ?>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Match History Section -->
+                <div id="match-history" class="stats-section" style="display: none;">
+                    <?php
+                    if (isset($accountInfo['name']) && isset($accountInfo['tag']) && isset($accountInfo['region'])) {
+                        $matchHistoryEndpoint = "/v3/matches/{$accountInfo['region']}/{$accountInfo['name']}/{$accountInfo['tag']}?size=10";
+                        $matchHistoryResponse = callValorantApi($matchHistoryEndpoint);
+                        
+                        if (isset($matchHistoryResponse['error'])) {
+                            echo '<div class="error-message">';
+                            echo '<p>Error fetching match history: ' . htmlspecialchars($matchHistoryResponse['error']) . '</p>';
+                            echo '</div>';
+                        } elseif (isset($matchHistoryResponse['data'])) {
+                            echo '<div class="match-history-container">';
+                            // Sort matches by date (most recent first)
+                            $matches = $matchHistoryResponse['data'];
+                            // Filter for competitive games only
+                            $matches = array_filter($matches, function($match) {
+                                return $match['metadata']['mode'] === 'Competitive';
+                            });
+                            // Sort the filtered matches
+                            usort($matches, function($a, $b) {
+                                return strtotime($b['metadata']['game_start']) - strtotime($a['metadata']['game_start']);
+                            });
+                            
+                            if (empty($matches)) {
+                                echo '<div class="no-matches">No competitive matches found in recent history.</div>';
+                            } else {
+                                foreach ($matches as $match) {
+                                    $playerStats = null;
+                                    foreach ($match['players']['all_players'] as $player) {
+                                        if ($player['name'] === $accountInfo['name'] && $player['tag'] === $accountInfo['tag']) {
+                                            $playerStats = $player;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if ($playerStats) {
+                                        echo '<div class="match-card">';
+                                        echo '<div class="match-header">';
+                                        // Add date and time
+                                        $matchDate = date('M d, Y H:i', strtotime($match['metadata']['game_start']));
+                                        echo '<div class="match-info">';
+                                        echo '<span class="map-name">' . htmlspecialchars($match['metadata']['map']) . '</span>';
+                                        echo '<span class="match-date">' . htmlspecialchars($matchDate) . '</span>';
+                                        echo '</div>';
+                                        
+                                        // Fix team result check
+                                        $playerTeam = $playerStats['team'];
+                                        $hasWon = isset($match['teams'][$playerTeam]) && $match['teams'][$playerTeam]['has_won'];
+                                        echo '<span class="match-result ' . ($hasWon ? 'win' : 'loss') . '">';
+                                        echo $hasWon ? 'Victory' : 'Defeat';
+                                        echo '</span>';
+                                        echo '</div>';
+                                        
+                                        echo '<div class="match-stats">';
+                                        echo '<div class="player-performance">';
+                                        echo '<span>K/D/A: ' . htmlspecialchars($playerStats['stats']['kills']) . '/' . 
+                                             htmlspecialchars($playerStats['stats']['deaths']) . '/' . 
+                                             htmlspecialchars($playerStats['stats']['assists']) . '</span>';
+                                        echo '</div>';
+                                        
+                                        echo '<div class="team-performance">';
+                                        echo '<div class="team team-' . strtolower($playerTeam) . '">';
+                                        echo '<h4>Your Team</h4>';
+                                        foreach ($match['players']['all_players'] as $teammate) {
+                                            if ($teammate['team'] === $playerTeam) {
+                                                echo '<div class="teammate">';
+                                                echo '<span class="name">' . htmlspecialchars($teammate['name']) . '</span>';
+                                                echo '<span class="kda">' . htmlspecialchars($teammate['stats']['kills']) . '/' . 
+                                                     htmlspecialchars($teammate['stats']['deaths']) . '/' . 
+                                                     htmlspecialchars($teammate['stats']['assists']) . '</span>';
+                                                echo '</div>';
+                                            }
+                                        }
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                    }
+                                }
+                            }
+                            echo '</div>';
+                        }
+                    }
+                    ?>
+                </div>
+            <?php elseif (!$apiErrorDetails): ?>
                 <p>Enter a player name and tag to search for their stats.</p>
             <?php endif; ?>
         </section>
@@ -217,5 +314,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['player_name_tag'])) {
     <footer>
         <p>&copy; <?php echo date("Y"); ?> Valorant Stats Website. API by HenrikDev.</p>
     </footer>
+
+    <script>
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.stats-section').forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show selected section
+        document.getElementById(sectionId).style.display = 'block';
+        
+        // Update active state in sub-nav
+        document.querySelectorAll('.sub-nav a').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`.sub-nav a[href="#${sectionId}"]`).classList.add('active');
+    }
+    </script>
 </body>
 </html> 
