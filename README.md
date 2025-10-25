@@ -38,45 +38,6 @@ A comprehensive web application for tracking and displaying Valorant player stat
 - Web server (Apache/Nginx) or PHP built-in server
 - API key from HenrikDev (included in config)
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ValorantTracker.git
-   cd ValorantTracker
-   ```
-
-2. **Configure API Key**
-   - Open `config.php`
-   - The API key is already included in the configuration
-   - (Optional) Replace with your own API key from [HenrikDev](https://docs.henrikdev.xyz/)
-
-3. **Start the server**
-   
-   **Using PHP built-in server:**
-   ```bash
-   php -S localhost:8000
-   ```
-   
-   **Or use your preferred web server setup**
-
-4. **Access the application**
-   - Open your browser and navigate to `http://localhost:8000`
-
-## File Structure
-
-```
-ValorantTracker/
-├── api_handler.php      # API interaction functions
-├── config.php           # Configuration and API key
-├── index.php            # Home page
-├── player_stats.php     # Player statistics page
-├── leaderboard.php      # Leaderboard page
-├── style.css            # Styling and themes
-├── background.jpg       # Background image
-└── README.md           # This file
-```
-
 ## Usage
 
 ### Searching for Player Stats
