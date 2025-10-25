@@ -217,6 +217,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['player_name_tag'])) {
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
+
+                    <!-- Current Act Stats -->
+                    <?php
+                    if (isset($accountInfo['name']) && isset($accountInfo['tag']) && isset($accountInfo['region'])) {
+                        $matchesEndpoint = "/v3/matches/{$accountInfo['region']}/{$accountInfo['name']}/{$accountInfo['tag']}?size=20";
+                        $matchesResponse = callValorantApi($matchesEndpoint);
+                        
+                        if (!isset($matchesResponse['error']) && isset($matchesResponse['data'])) {
+                            $totalKills = 0;
+                            $totalDeaths = 0;
+                            $totalHeadshots = 0;
+                            $totalShots = 0;
+                            $gamesCounted = 0;
+                            
+                            foreach ($matchesResponse['data'] as $match) {
+                                if ($match['metadata']['mode'] === 'Competitive') {
+                                    foreach ($match['players']['all_players'] as $player) {
+                                        if ($player['name'] === $accountInfo['name'] && $player['tag'] === $accountInfo['tag']) {
+                                            $totalKills += $player['stats']['kills'];
+                                            $totalDeaths += $player['stats']['deaths'];
+                                            $totalHeadshots += $player['stats']['headshots'];
+                                            // Only add shots_fired if it exists
+                                            if (isset($player['stats']['shots_fired'])) {
+                                                $totalShots += $player['stats']['shots_fired'];
+                                            }
+                                            $gamesCounted++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if ($gamesCounted > 0) {
+                                $kdRatio = $totalDeaths > 0 ? round($totalKills / $totalDeaths, 2) : $totalKills;
+                                // Only calculate headshot percentage if we have shots data
+                                $headshotPercentage = $totalShots > 0 ? round(($totalHeadshots / $totalShots) * 100, 1) : 'N/A';
+                                ?>
+                                <div class="card">
+                                    <h4>Current Act Performance</h4>
+                                    <p><strong>K/D Ratio:</strong> <?php echo $kdRatio; ?></p>
+                                    <p><strong>Headshot Percentage:</strong> <?php echo $headshotPercentage; ?>%</p>
+                                    <p><strong>Games Analyzed:</strong> <?php echo $gamesCounted; ?></p>
+                                </div>
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
 
                 <!-- Match History Section -->
